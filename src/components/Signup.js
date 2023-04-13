@@ -24,7 +24,7 @@ export default function Signup(props) {
         user: username,
         password: pwd,
       });
-      console.log(docRef);
+      props.setCurrentUser({ fullName: fullname, user: username });
       navigate("/");
     } catch (err) {
       alert("Something went wrong!!!");

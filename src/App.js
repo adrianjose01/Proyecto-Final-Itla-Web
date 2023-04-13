@@ -8,6 +8,8 @@ import Post from "./components/Post";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ fullName: "", user: "" });
+
   return (
     <>
       <BrowserRouter>
@@ -40,19 +42,34 @@ function App() {
             </ul>
           </nav>
         </header>
+        {currentUser.fullName && <h2>Hello, {currentUser.fullName}</h2>}
         <Routes>
           <Route exact path="/" element={<AllPosts />} />
           <Route
             exact
             path="/signup"
-            element={<Signup setIsLoggedIn={setIsLoggedIn} />}
+            element={
+              <Signup
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
           <Route
             exact
             path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+            element={
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
-          <Route exact path="/post" element={<Post />} />
+          <Route
+            exact
+            path="/post"
+            element={<Post currentUser={currentUser} />}
+          />
         </Routes>
       </BrowserRouter>
     </>

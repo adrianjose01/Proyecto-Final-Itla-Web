@@ -24,6 +24,10 @@ export default function Login(props) {
     if (currentUser) {
       console.log(currentUser);
       props.setIsLoggedIn(true);
+      props.setCurrentUser({
+        fullName: currentUser[0].fullName,
+        user: currentUser[0].user,
+      });
       navigate("/");
     } else {
       alert("Something went wrong log in into the account, try again!");
