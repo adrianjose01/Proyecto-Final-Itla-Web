@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+button {
+  font-family: "Open Sans", sans-serif;
+}
+
+h2 {
+  margin: 1rem;
+}
+
+body {
+  background-color: #8ec5fc;
+  background-image: linear-gradient(90deg, #8ec5fc 0%, #e0c3fc 100%);
+}
+
+.navbar ul {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: right;
+  list-style: none;
+  margin: 3rem;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+}
+
+.title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.posts_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.posts {
+  list-style: none;
+}
+
+.posts li {
+  margin: 1rem;
+  border: 1px solid black;
+  width: 475px;
+  max-width: 90vw;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+b {
+  display: block;
+  margin: 0.6rem auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container h1 {
+  margin: 0.5rem auto;
+}
+
+.login_form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 475px;
+  max-width: 90vw;
+  align-items: center;
+}
+
+.login_form label {
+  text-align: center;
+}
+
+.login_form label span {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 20px;
+}
+
+.login_form label input {
+  width: 15rem;
+  height: 1.7rem;
+}
+
+.login_form button {
+  padding: 0.4rem 2rem;
+  background-color: #e0c3fc;
+  border: none;
+  cursor: pointer;
+}
+
+.login_form button:hover {
+  background-color: white;
+}
+
+.login_form textarea {
+  width: 80%;
+  height: 200px;
+  padding: 0.3rem;
+}

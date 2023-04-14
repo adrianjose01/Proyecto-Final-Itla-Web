@@ -1,15 +1,28 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, addDoc } from "firebase/firestore";
-import { firestore } from "../FirebaseConfiguration";
 
 export default function Signup(props) {
   const nameRef = useRef();
   const userRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
+  const [allUsers, setUsers] = useState([]);
 
-  const submitHandler = async (e) => {
+  useEffect(() => {
+    const getPosts = () => {
+      fetch("https://itla-31d00-default-rtdb.firebaseio.com/users.json")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data) {
+            setUsers(data);
+          }
+        });
+    };
+    getPosts();
+  }, []);
+
+  const submitHandler = (e) => {
     e.preventDefault();
     const fullname = nameRef.current.value;
     const username = userRef.current.value;
@@ -18,23 +31,27 @@ export default function Signup(props) {
       alert("Please fill all the fields");
       return;
     }
-    try {
-      const docRef = await addDoc(collection(firestore, "Usuarios"), {
-        fullName: fullname,
+    const newUsers = [
+      ...allUsers,
+      { fullname: fullname, user: username, password: pwd },
+    ];
+    fetch("https://itla-31d00-default-rtdb.firebaseio.com/users.json", {
+      method: "PUT",
+      body: JSON.stringify(newUsers),
+    }).then((res) => {
+      console.log("Success!!");
+      props.setCurrentUser({
+        fullname: fullname,
         user: username,
-        password: pwd,
       });
-      props.setCurrentUser({ fullName: fullname, user: username });
+      props.setIsLoggedIn(true);
       navigate("/");
-    } catch (err) {
-      alert("Something went wrong!!!");
-    }
-
-    props.setIsLoggedIn(true);
+    });
   };
   return (
-    <div>
-      <form onSubmit={submitHandler}>
+    <div className="container">
+      <form onSubmit={submitHandler} className="login_form">
+        <h1>Sign up</h1>
         <label>
           <span>Enter Your Full Name</span>
           <input ref={nameRef} type="text" />

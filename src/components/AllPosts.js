@@ -1,27 +1,30 @@
-import { collection, getDocs } from "firebase/firestore";
-import { firestore } from "../FirebaseConfiguration";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function AllPosts() {
+export default function AllPosts(props) {
   const [posts, setPosts] = useState([]);
-  const getData = async () => {
-    const querySnapshot = await getDocs(collection(firestore, "posts"));
-    let data = [];
-    querySnapshot.forEach((doc) => {
-      data.push(doc.data());
-    });
-    setPosts(data);
-  };
-  getData();
+
+  useEffect(() => {
+    const getPosts = () => {
+      fetch("https://itla-31d00-default-rtdb.firebaseio.com/posts.json")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPosts(data.reverse());
+          props.setpost(data);
+        });
+    };
+    getPosts();
+  }, []);
+
   return (
-    <div>
-      <h1>Muro Interactivo</h1>
-      <ul>
+    <div className="posts_container">
+      <h1 className="title">Muro Interactivo</h1>
+      <ul className="posts">
         {posts &&
-          posts.map((post) => (
+          posts.reverse().map((post) => (
             <li key={post.content}>
               {post.content} <br />
-              {post.fullName}
+              <b>Created by: {post.fullName}</b>
             </li>
           ))}
       </ul>

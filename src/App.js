@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllPosts from "./components/AllPosts";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -7,14 +7,19 @@ import Login from "./components/Login";
 import Post from "./components/Post";
 
 function App() {
+  const [posts, setPosts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ fullName: "", user: "" });
+  const [currentUser, setCurrentUser] = useState({ fullname: "", user: "" });
+
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
 
   return (
     <>
       <BrowserRouter>
         <header>
-          <nav>
+          <nav className="navbar">
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -42,9 +47,9 @@ function App() {
             </ul>
           </nav>
         </header>
-        {currentUser.fullName && <h2>Hello, {currentUser.fullName}</h2>}
+        {currentUser.fullname && <h2>Hello, {currentUser.fullname}</h2>}
         <Routes>
-          <Route exact path="/" element={<AllPosts />} />
+          <Route exact path="/" element={<AllPosts setpost={setPosts} />} />
           <Route
             exact
             path="/signup"

@@ -1,31 +1,40 @@
-import React, { useRef } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { firestore } from "../FirebaseConfiguration";
 
 export default function Login(props) {
   const userRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
+  const [allUsers, setUsers] = useState();
+
+  useEffect(() => {
+    const getPosts = () => {
+      fetch("https://itla-31d00-default-rtdb.firebaseio.com/users.json")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data) {
+            setUsers(data);
+          }
+        });
+    };
+    getPosts();
+  }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const username = userRef.current.value;
     const pwd = passwordRef.current.value;
 
-    const querySnapshot = await getDocs(collection(firestore, "Usuarios"));
-    let data = [];
-    querySnapshot.forEach((doc) => {
-      data.push(doc.data());
-    });
-    const currentUser = data.filter(
+    const currentUser = allUsers.filter(
       (user) => user.user === username && user.password === pwd
     );
     if (currentUser) {
       console.log(currentUser);
       props.setIsLoggedIn(true);
+      console.log(currentUser);
       props.setCurrentUser({
-        fullName: currentUser[0].fullName,
+        fullname: currentUser[0].fullname,
         user: currentUser[0].user,
       });
       navigate("/");
@@ -34,8 +43,9 @@ export default function Login(props) {
     }
   };
   return (
-    <div>
-      <form onSubmit={submitHandler}>
+    <div className="container">
+      <h1>Log In</h1>
+      <form onSubmit={submitHandler} className="login_form">
         <label>
           <span>Enter Your Username</span>
           <input required ref={userRef} type="text" />
